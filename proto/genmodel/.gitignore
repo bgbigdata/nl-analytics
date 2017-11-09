@@ -1,0 +1,5 @@
+# Ignore Maven build directory
+target/
+project/
+lib/
+
