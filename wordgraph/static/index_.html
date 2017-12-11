@@ -23,18 +23,18 @@
 <body>
 	<div>
 		検索語:
-		<input id="word" type="text" style="width: 200px;" onchange="ns.eh_ga1_update();ns.eh_ga2_update();" value="">
+		<input id="word" type="text" style="width: 200px;" onchange="ns.eh_ga1_update();ns.eh_ga2_update();ns.eh_article_search(this.value);" value="">
 		上位N件を除外(NW図):
 		<input id="index" type="text" style="width: 60px;" onchange="ns.eh_ga1_update();" value="0">
 		基準日:
-		<select id="calender" onchange="ns.eh_sync_calender();ns.eh_ga1_update();ns.eh_ga2_update();ns.eh_article_search();"></select>
+		<select id="calender" onchange="ns.eh_sync_calender();ns.eh_ga1_update();ns.eh_ga2_update();"></select>
 		比較対象日:
 		<select id="calender_comp" onchange="ns.eh_ga1_update();ns.eh_ga2_update();"></select>
 		<select id="diff_switch" onchange="ns.eh_ga2_update();">
 			<option value="1">new-word ranking</option>
 			<option value="0">total ranking</option>
 		</select>
-		元記事検索:(実装中)<input id="query" type="text" style="width: 200px;" onchange="ns.eh_article_search();" value="">
+		元記事検索:<input id="query" type="text" style="width: 200px;" onchange="ns.eh_article_search(this.value);" value="">
 		<span id="msg" style="color: red;"></span>
 	</div>
 
@@ -42,7 +42,7 @@
 	
 	<svg id="ga1" width="600" height="600" style="border: 1px solid gray; display: inline-block;"></svg>
 	<svg id="ga2" width="300" height="600" style="border: 1px solid gray; display: inline-block;"></svg>
-	<div id="article" style="border: 1px solid gray; display: inline-block; width: 300px; height: 600px; overflow: auto; display: none;"></div>
+	<div id="article" style="border: 1px solid gray; display: inline-block; width: 300px; height: 600px; overflow: auto;"></div>
 	<script>
 	
 	//namespace
@@ -75,7 +75,7 @@
 				.distance(function(d){
 					var min = d3.min(links, function(e){return parseFloat(e.value);});
 					var max = d3.max(links, function(e){return parseFloat(e.value);});
-					var n = (max - parseFloat(d.value)) / (max - min);
+					var n = (parseFloat(d.value) - min) / (max - min);
 					return parseInt(n * 200);
 				}))
 			.force("charge",	d3.forceManyBody().strength(-50))
@@ -115,9 +115,9 @@
 				simulation.nodes(nodes);
 				simulation.force("link").links(links);
 				
-				circles = circles.data(nodes, function(d) {return d.id;});
+				circles = circles.data([]);
 				circles.exit().remove();
-				circles = circles.data(nodes).enter().append("circle").merge(circles)
+				circles = circles.data(nodes).enter().append("circle")
 					.attr("r",		10)
 					.attr("fill",	function(d){return d3.schemeCategory20c[d.group*5%20];})
 					.call(d3.drag()
@@ -140,14 +140,14 @@
 					d.fy = null;
 				} 
 
-				labels = labels.data(nodes, function(d) {return d.id;});
+				labels = labels.data([]);
 				labels.exit().remove();
-				labels = labels.data(nodes).enter().append("text").merge(labels)
+				labels = labels.data(nodes).enter().append("text")
 					.text(function(d){return d.id;});
 				
-				lines = lines.data(lines, function(d) {return d.source+"-"+d.target;});
+				lines = lines.data([]);
 				lines.exit().remove();
-				lines = lines.data(links).enter().append("line").merge(lines);
+				lines = lines.data(links).enter().append("line")
 				
 				simulation.alpha(1).restart();
 			});
@@ -225,8 +225,8 @@
 
 	//article
 	(function() {
-		var container = d3.select("#article");
-        var div = container.selectAll("div");
+		var div = d3.select("#article");
+		var p = div.selectAll("p");
 		var article;
 		
 		function search(query,date,offset) {
@@ -239,16 +239,12 @@
 				}
 				article = json.article;
 
-                div = div.data([]);
-                div.exit().remove();
-                div = div.data(article).enter().append("div");
-                div.append("div")
-                    .style("background-color", "#999")
-                    .text(function(d) {return d.source + "/" + d.date.slice(0,-16);});
-                div.append("div")
-                    .style("margin-bottom", "10px")
-                    .text(function(d) {return d.text;});
-                
+				p = p.data([]);
+				p.exit().remove();
+				p = p.data(article).enter().append("p");
+				p.append("h4").text(function(d){return d.date;});
+				p.text(function(d){return d.text;});
+				p.append("hr");
 			});
 		}
 		ns.article_search = search;
@@ -281,11 +277,11 @@
 			}
 			calender_comp.node().selectedIndex = index;
 		}
-		function article_search() {
+		function article_search(q) {
 			var query = d3.select("#query");
 			var calender = d3.select("#calender");
-			
-			ns.article_search(query.node().value, calender.node().value, 0);
+			query.node().value = q;
+			ns.article_search(q, calender.node().value, 0);
 		}
 		
 		ns.eh_ga1_update = ga1_update;
