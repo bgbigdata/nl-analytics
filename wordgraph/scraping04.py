@@ -24,7 +24,7 @@ for a in basesoup.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
     links.append(domain + a.get("href"))
 links = list(set(links))
 
-print(links)
+#print(links)
 
 
 # In[15]:
