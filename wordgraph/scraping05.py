@@ -1,15 +1,18 @@
-### TITLE    “d‹CV•·ƒfƒWƒ^ƒ‹ (scraping05)
-### VARSION  v1.0   2017/12/16  ‰”Å  Y.K
 
+### TITLE    é›»æ°—æ–°èãƒ‡ã‚¸ã‚¿ãƒ« (scraping05)
+### VARSION  v1.0   2017/12/16  åˆç‰ˆ  Y.K
+# coding: utf-8
+
+import requests
 import re
 from time import sleep
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-#/Ú‘±æHP “d‹CV•·ƒfƒWƒ^ƒ‹/
+#/æ¥ç¶šå…ˆHP é›»æ°—æ–°èãƒ‡ã‚¸ã‚¿ãƒ«/
 domain = "https://www.denkishimbun.com"
 
-#/ƒjƒ…[ƒXƒgƒsƒbƒNƒXŠK‘w ¦‚à‚Ì‚É‚æ‚Á‚Ä‚Í‚±‚ÌŠK‘w‚É‹L––³‚µ/
+#/ãƒ‹ãƒ¥ãƒ¼ã‚¹ãƒˆãƒ”ãƒƒã‚¯ã‚¹éšå±¤ â€»ã‚‚ã®ã«ã‚ˆã£ã¦ã¯ã“ã®éšå±¤ã«è¨˜äº‹ç„¡ã—/
 startpath = ""
 
 basesoup = BeautifulSoup(requests.get(domain + startpath).text, "lxml")
@@ -17,7 +20,7 @@ basesoup = BeautifulSoup(requests.get(domain + startpath).text, "lxml")
 
 links = []
 
-#/•s•K—v‚Èî•ñ‚àæ‚Á‚Ä‚µ‚Ü‚¤‚½‚ßA³‹K•\Œ»‚É‚Í’ˆÓ/
+#/ä¸å¿…è¦ãªæƒ…å ±ã‚‚å–ã£ã¦ã—ã¾ã†ãŸã‚ã€æ­£è¦è¡¨ç¾ã«ã¯æ³¨æ„/
 for a in basesoup.find_all("a", href=re.compile("/archives/[0-9\._?+-]")):
 
     links.append(a.get("href"))
@@ -29,15 +32,15 @@ texts = []
 count = 0
 
 for link in links:
-    #/Å‚ç‚¸‹}‚²‚¤/
+    #/ç„¦ã‚‰ãšæ€¥ã”ã†/
     sleep(2)
-    #/‚½‚¾ƒŠƒXƒg‚Å‰ñ‚·‚¾‚¯/
+    #/ãŸã ãƒªã‚¹ãƒˆã§å›ã™ã ã‘/
     soup = BeautifulSoup(requests.get(link).text, "lxml")
-    #/h1‚ÅŒŸõ‚µ‚Ä‚Ë/
+    #/h1ã§æ¤œç´¢ã—ã¦ã­/
     title = soup.find("h1", class_="detail_news_topics").text.strip()
-    #/h1‹ß‚­‚Ì‹L–(“ú–{Œê–¼‚ª‘‚©‚ê‚Ä‚¢‚é‰ÓŠ)‹ß‚­‚Ìdiv class=""‚Ì’l‚ğİ’è/
+    #/h1è¿‘ãã®è¨˜äº‹(æ—¥æœ¬èªåãŒæ›¸ã‹ã‚Œã¦ã„ã‚‹ç®‡æ‰€)è¿‘ãã®div class=""ã®å€¤ã‚’è¨­å®š/
     main = soup.find("div", class_="news_text").text.strip() 
-    #/ˆÈ‰º‚¨‚Ü‚¶‚È‚¢(htmlŒ`®‚Ì‚²‚İ‚ğÁ‚µA‘‚«‚ñ‚Å‚¢‚é‚¾‚¯)/
+    #/ä»¥ä¸‹ãŠã¾ã˜ãªã„(htmlå½¢å¼ã®ã”ã¿ã‚’æ¶ˆã—ã€æ›¸ãè¾¼ã‚“ã§ã„ã‚‹ã ã‘)/
     text = (title + " " + main).replace("\u3000"," ")
     text = text.replace("\r","")
     text = text.replace("\n","")
@@ -51,7 +54,7 @@ for link in links:
     #print (datetime.now().isoformat()+":("+str(count)+"/"+str(len(links))+")")
 
 
-#/««‚±‚±‚©‚ç‚ª“ä««/
+#/â†“â†“ã“ã“ã‹ã‚‰ãŒè¬â†“â†“/
 import sqlite3
 import hashlib
 
@@ -65,7 +68,7 @@ for text in texts:
 
     id = hashlib.md5(text.encode("utf-8")).hexdigest()
 
-    source = "“d‹CV•·ƒfƒWƒ^ƒ‹"
+    source = "é›»æ°—æ–°èãƒ‡ã‚¸ã‚¿ãƒ«"
 
     time = datetime.now().isoformat()
 
