@@ -1,6 +1,7 @@
-
 ### TITLE    電気新聞デジタル (scraping05)
 ### VARSION  v1.0   2017/12/16  初版  Y.K
+### VARSION  v1.1   2017/12/17  DB書込みをアップグレード  Y.K
+
 # coding: utf-8
 
 import requests
@@ -51,40 +52,40 @@ for link in links:
 
     count = count + 1
 
-    #print (datetime.now().isoformat()+":("+str(count)+"/"+str(len(links))+")")
+    print (datetime.now().isoformat()+":("+str(count)+"/"+str(len(links))+")")
 
 
-#/↓↓ここからが謎↓↓/
+#/↓↓ローカルにしか接続できないらしい↓↓/
+#/①事前準備としてコマンドプロンプトでDBを作成
+#/ cmd → sqlite3.exeへ移動 →「sqlite3 [DB名]」コマンドを実行/
+#/②TABLEを作成/
+#/「CREATE TABLE [テーブル名]([カラム1],[カラム2],…,[カラムx])」コマンドを実行)/
+#/③TABLEが作成されていることを確認/
+#/「.table」コマンドを実行)/
+
 import sqlite3
 import hashlib
 
-dbname = "text_denki.db"
+dbname = "text.db"
 dbcon = sqlite3.connect(dbname)
 dbcur = dbcon.cursor()
 
 for text in texts:
 
-    insert = "INSERT INTO rawtext(id, source, time, rawtext) VALUES(?, ?, ?, ?)"
-
+    #/コマンドや引数の値を定義/
+    insert = "INSERT INTO scraping05(id, source, time, rawtext) VALUES(?, ?, ?, ?)"
     id = hashlib.md5(text.encode("utf-8")).hexdigest()
-
     source = "電気新聞デジタル"
-
     time = datetime.now().isoformat()
-
     args = (id, source, time, text)
 
+    #/実行/
     try:
-
         dbcur.execute(insert, args)
-
     except sqlite3.Error as e:
-
         print('sqlite3:', e.args[0])
 
 dbcon.commit()
-
 dbcon.close()
 
 print (datetime.now().isoformat()+":db written")
-
