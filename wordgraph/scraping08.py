@@ -4,11 +4,6 @@
 # In[22]:
 
 
-# coding: utf-8
-
-# In[3]:
-
-
 import requests
 import re
 from time import sleep
@@ -25,14 +20,6 @@ for a in basesoup.find_all("a", href=re.compile("/[0-9][0-9]")):
     links.append(a.get("href"))
 
 links = list(set(links))
-
-print(links)
-
-
-# In[27]:
-
-
-# In[15]:
 
 
 
@@ -55,11 +42,6 @@ for link in links:
     
     count = count + 1
     print (datetime.now().isoformat()+":("+str(count)+"/"+str(len(links))+")")
-    print(text)
-
-
-# In[ ]:
-
 
 # In[16]:
 
