@@ -1,5 +1,6 @@
-### TITLE    l‘V•· (scraping06)
-### VARSION  v1.0   2017/12/16  ‰”Å  Y.K
+### TITLE    å››å›½æ–°è (scraping06)
+### VARSION  v1.0   2017/12/16  åˆç‰ˆ  Y.K
+### VARSION  v1.1   2017/12/17  foræ–‡ã‚’1ã¤ã«é›†ç´„ã€DBæ›¸è¾¼ã¿ã‚’ã‚¢ãƒƒãƒ—ã‚°ãƒ¬ãƒ¼ãƒ‰  Y.K
 
 # coding: utf-8
 
@@ -9,10 +10,10 @@ from time import sleep
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-#/Ú‘±æHP l‘V•·/
+#/æ¥ç¶šå…ˆHP å››å›½æ–°è/
 domain = "https://www.shikoku-np.co.jp"
 
-#/ƒjƒ…[ƒXƒgƒsƒbƒNƒXŠK‘w ¦‚à‚Ì‚É‚æ‚Á‚Ä‚Í‚±‚ÌŠK‘w‚É‹L––³‚µ/
+#/ãƒ‹ãƒ¥ãƒ¼ã‚¹ãƒˆãƒ”ãƒƒã‚¯ã‚¹éšå±¤ â€»ã‚‚ã®ã«ã‚ˆã£ã¦ã¯ã“ã®éšå±¤ã«è¨˜äº‹ç„¡ã—/
 startpath = ""
 
 basesoup = BeautifulSoup(requests.get(domain + startpath).text, "lxml")
@@ -20,40 +21,8 @@ basesoup = BeautifulSoup(requests.get(domain + startpath).text, "lxml")
 
 links = []
 
-#/•s•K—v‚Èî•ñ‚àæ‚Á‚Ä‚µ‚Ü‚¤‚½‚ßA³‹K•\Œ»‚É‚Í’ˆÓ/
-for a in basesoup.find_all("a", href=re.compile("/national/main/[0-9\._?+-]")):
-
-    links.append(domain + a.get("href"))
-
-for a in basesoup.find_all("a", href=re.compile("/national/social/[0-9\._?+-]")):
-
-    links.append(domain + a.get("href"))
-
-for a in basesoup.find_all("a", href=re.compile("/national/economy/[0-9\._?+-]")):
-
-    links.append(domain + a.get("href"))
-
-for a in basesoup.find_all("a", href=re.compile("/national/political/[0-9\._?+-]")):
-
-    links.append(domain + a.get("href"))
-
-for a in basesoup.find_all("a", href=re.compile("/national/international/[0-9\._?+-]")):
-
-    links.append(domain + a.get("href"))
-
-for a in basesoup.find_all("a", href=re.compile("/national/life_topic/[0-9\._?+-]")):
-
-    links.append(domain + a.get("href"))
-
-for a in basesoup.find_all("a", href=re.compile("/national/culture_entertainment/[0-9\._?+-]")):
-
-    links.append(domain + a.get("href"))
-
-for a in basesoup.find_all("a", href=re.compile("/national/science_environmental/[0-9\._?+-]")):
-
-    links.append(domain + a.get("href"))
-
-for a in basesoup.find_all("a", href=re.compile("/national/medical_health/[0-9\._?+-]")):
+#/ä¸å¿…è¦ãªæƒ…å ±ã‚‚å–ã£ã¦ã—ã¾ã†ãŸã‚ã€æ­£è¦è¡¨ç¾ã«ã¯æ³¨æ„/
+for a in basesoup.find_all("a", href=re.compile("/national/[a-zA-Z]*/[a-zA-Z0-9\._?+-]")):
 
     links.append(domain + a.get("href"))
 
@@ -64,15 +33,15 @@ texts = []
 count = 0
 
 for link in links:
-    #/Å‚ç‚¸‹}‚²‚¤/
+    #/ç„¦ã‚‰ãšæ€¥ã”ã†/
     sleep(2)
-    #/‚½‚¾ƒŠƒXƒg‚Å‰ñ‚·‚¾‚¯/
+    #/ãŸã ãƒªã‚¹ãƒˆã§å›ã™ã ã‘/
     soup = BeautifulSoup(requests.get(link).text, "lxml")
-    #/‚±‚ÌƒTƒCƒg‚Íh1‚Íclass‚Å‚Í‚È‚­idİ’è‚¾‚Á‚½/
-    title = soup.find("div", class_="Articletitle").text.strip()
-    #/h1‹ß‚­‚Ì‹L–(“ú–{Œê–¼‚ª‘‚©‚ê‚Ä‚¢‚é‰ÓŠ)‹ß‚­‚Ìdiv class=""‚Ì’l‚ğİ’è/
+    #/ã“ã®ã‚µã‚¤ãƒˆã¯h1ã¯classã§ã¯ãªãidè¨­å®šã ã£ãŸ/
+    title = soup.find("h1").text.strip()
+    #/h1è¿‘ãã®è¨˜äº‹(æ—¥æœ¬èªåãŒæ›¸ã‹ã‚Œã¦ã„ã‚‹ç®‡æ‰€)è¿‘ãã®div class=""ã®å€¤ã‚’è¨­å®š/
     main = soup.find("div", class_="articlemain").text.strip() 
-    #/ˆÈ‰º‚¨‚Ü‚¶‚È‚¢(htmlŒ`®‚Ì‚²‚İ‚ğÁ‚µA‘‚«‚ñ‚Å‚¢‚é‚¾‚¯)/
+    #/ä»¥ä¸‹ãŠã¾ã˜ãªã„(htmlå½¢å¼ã®ã”ã¿ã‚’æ¶ˆã—ã€æ›¸ãè¾¼ã‚“ã§ã„ã‚‹ã ã‘)/
     text = (title + " " + main).replace("\u3000"," ")
     text = text.replace("\r","")
     text = text.replace("\n","")
@@ -83,40 +52,39 @@ for link in links:
 
     count = count + 1
 
-    #print (datetime.now().isoformat()+":("+str(count)+"/"+str(len(links))+")")
+    print (datetime.now().isoformat()+":("+str(count)+"/"+str(len(links))+")")
 
+#/â†“â†“ãƒ­ãƒ¼ã‚«ãƒ«ã«ã—ã‹æ¥ç¶šã§ããªã„ã‚‰ã—ã„â†“â†“/
+#/â‘ äº‹å‰æº–å‚™ã¨ã—ã¦ã‚³ãƒãƒ³ãƒ‰ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã§DBã‚’ä½œæˆ
+#/ cmd â†’ sqlite3.exeã¸ç§»å‹• â†’ã€Œsqlite3 [DBå]ã€ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œ/
+#/â‘¡TABLEã‚’ä½œæˆ/
+#/ã€ŒCREATE TABLE [ãƒ†ãƒ¼ãƒ–ãƒ«å]([ã‚«ãƒ©ãƒ 1],[ã‚«ãƒ©ãƒ 2],â€¦,[ã‚«ãƒ©ãƒ x])ã€ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œ)/
+#/â‘¢TABLEãŒä½œæˆã•ã‚Œã¦ã„ã‚‹ã“ã¨ã‚’ç¢ºèª/
+#/ã€Œ.tableã€ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œ)/
 
-#/««‚±‚±‚©‚ç‚ª“ä««/
 import sqlite3
 import hashlib
 
-dbname = "text_denki.db"
+dbname = "text.db"
 dbcon = sqlite3.connect(dbname)
 dbcur = dbcon.cursor()
 
 for text in texts:
 
-    insert = "INSERT INTO rawtext(id, source, time, rawtext) VALUES(?, ?, ?, ?)"
-
+    #/ã‚³ãƒãƒ³ãƒ‰ã‚„å¼•æ•°ã®å€¤ã‚’å®šç¾©/
+    insert = "INSERT INTO scraping06(id, source, time, rawtext) VALUES(?, ?, ?, ?)"
     id = hashlib.md5(text.encode("utf-8")).hexdigest()
-
-    source = "l‘V•·"
-
+    source = "å››å›½æ–°è"
     time = datetime.now().isoformat()
-
     args = (id, source, time, text)
 
+    #/å®Ÿè¡Œ/
     try:
-
         dbcur.execute(insert, args)
-
     except sqlite3.Error as e:
-
         print('sqlite3:', e.args[0])
 
 dbcon.commit()
-
 dbcon.close()
 
 print (datetime.now().isoformat()+":db written")
-
