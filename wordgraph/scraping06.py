@@ -72,7 +72,7 @@ dbcur = dbcon.cursor()
 for text in texts:
 
     #/コマンドや引数の値を定義/
-    insert = "INSERT INTO scraping06(id, source, time, rawtext) VALUES(?, ?, ?, ?)"
+    insert = "INSERT INTO rawtext(id, source, time, rawtext) VALUES(?, ?, ?, ?)"
     id = hashlib.md5(text.encode("utf-8")).hexdigest()
     source = "四国新聞"
     time = datetime.now().isoformat()
