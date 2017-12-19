@@ -16,7 +16,7 @@ startpath = "/"
 basesoup = BeautifulSoup(requests.get(domain + startpath).text, "lxml")
 
 links = []
-for a in basesoup.find_all("a", href=re.compile("/[0-9][0-9]")):
+for a in basesoup.find_all("a", href=re.compile(domain + "/[0-9][0-9]")):
     links.append(a.get("href"))
 
 links = list(set(links))
