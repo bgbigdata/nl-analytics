@@ -1,0 +1,51 @@
+2017-12-18 05:00:03,655 : genmodel : INFO : word2vec start
+2017-12-18 05:00:03,655 : word2vec : INFO : collecting all words and their counts
+2017-12-18 05:00:03,655 : word2vec : INFO : PROGRESS: at sentence #0, processed 0 words, keeping 0 word types
+2017-12-18 05:00:03,674 : word2vec : INFO : collected 3059 word types from a corpus of 7245 raw words and 79 sentences
+2017-12-18 05:00:03,675 : word2vec : INFO : Loading a fresh vocabulary
+2017-12-18 05:00:03,697 : word2vec : INFO : min_count=1 retains 3059 unique words (100% of original 3059, drops 0)
+2017-12-18 05:00:03,697 : word2vec : INFO : min_count=1 leaves 7245 word corpus (100% of original 7245, drops 0)
+2017-12-18 05:00:03,750 : word2vec : INFO : deleting the raw counts dictionary of 3059 items
+2017-12-18 05:00:03,751 : word2vec : INFO : sample=0.001 downsamples 18 most-common words
+2017-12-18 05:00:03,751 : word2vec : INFO : downsampling leaves estimated 7078 word corpus (97.7% of prior 7245)
+2017-12-18 05:00:03,751 : word2vec : INFO : estimated required memory for 3059 words and 200 dimensions: 6423900 bytes
+2017-12-18 05:00:03,776 : word2vec : INFO : resetting layer weights
+2017-12-18 05:00:04,006 : word2vec : INFO : training model with 3 workers on 3059 vocabulary and 200 features, using sg=1 hs=0 sample=0.001 negative=15 window=10
+2017-12-18 05:00:06,094 : word2vec : INFO : PROGRESS: at 30.63% examples, 4650 words/s, in_qsize 3, out_qsize 0
+2017-12-18 05:00:06,180 : word2vec : INFO : worker thread finished; awaiting finish of 2 more threads
+2017-12-18 05:00:06,416 : word2vec : INFO : worker thread finished; awaiting finish of 1 more threads
+2017-12-18 05:00:07,057 : word2vec : INFO : worker thread finished; awaiting finish of 0 more threads
+2017-12-18 05:00:07,057 : word2vec : INFO : training on 36225 raw words (35386 effective words) took 3.0s, 11603 effective words/s
+2017-12-18 05:00:07,057 : word2vec : WARNING : under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2017-12-18 05:00:07,058 : genmodel : INFO : word2vec end
+2017-12-18 05:00:07,058 : utils : INFO : saving Word2Vec object under ./vec/vec_2017-12-18, separately None
+2017-12-18 05:00:07,058 : utils : INFO : not storing attribute syn0norm
+2017-12-18 05:00:07,058 : utils : INFO : not storing attribute cum_table
+2017-12-18 05:00:07,216 : utils : INFO : saved ./vec/vec_2017-12-18
+2017-12-18 05:00:07,217 : genmodel : INFO : ./vec/vec_2017-12-18 saved
+2017-12-19 05:00:03,041 : genmodel : INFO : word2vec start
+2017-12-19 05:00:03,042 : word2vec : INFO : collecting all words and their counts
+2017-12-19 05:00:03,042 : word2vec : INFO : PROGRESS: at sentence #0, processed 0 words, keeping 0 word types
+2017-12-19 05:00:03,064 : word2vec : INFO : collected 3677 word types from a corpus of 9341 raw words and 113 sentences
+2017-12-19 05:00:03,064 : word2vec : INFO : Loading a fresh vocabulary
+2017-12-19 05:00:03,096 : word2vec : INFO : min_count=1 retains 3677 unique words (100% of original 3677, drops 0)
+2017-12-19 05:00:03,097 : word2vec : INFO : min_count=1 leaves 9341 word corpus (100% of original 9341, drops 0)
+2017-12-19 05:00:03,149 : word2vec : INFO : deleting the raw counts dictionary of 3677 items
+2017-12-19 05:00:03,149 : word2vec : INFO : sample=0.001 downsamples 14 most-common words
+2017-12-19 05:00:03,150 : word2vec : INFO : downsampling leaves estimated 9140 word corpus (97.9% of prior 9341)
+2017-12-19 05:00:03,150 : word2vec : INFO : estimated required memory for 3677 words and 200 dimensions: 7721700 bytes
+2017-12-19 05:00:03,180 : word2vec : INFO : resetting layer weights
+2017-12-19 05:00:03,461 : word2vec : INFO : training model with 3 workers on 3677 vocabulary and 200 features, using sg=1 hs=0 sample=0.001 negative=15 window=10
+2017-12-19 05:00:05,693 : word2vec : INFO : PROGRESS: at 21.95% examples, 4379 words/s, in_qsize 4, out_qsize 0
+2017-12-19 05:00:05,777 : word2vec : INFO : worker thread finished; awaiting finish of 2 more threads
+2017-12-19 05:00:06,818 : word2vec : INFO : PROGRESS: at 78.23% examples, 10714 words/s, in_qsize 1, out_qsize 1
+2017-12-19 05:00:06,818 : word2vec : INFO : worker thread finished; awaiting finish of 1 more threads
+2017-12-19 05:00:07,388 : word2vec : INFO : worker thread finished; awaiting finish of 0 more threads
+2017-12-19 05:00:07,389 : word2vec : INFO : training on 46705 raw words (45691 effective words) took 3.9s, 11641 effective words/s
+2017-12-19 05:00:07,389 : word2vec : WARNING : under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2017-12-19 05:00:07,389 : genmodel : INFO : word2vec end
+2017-12-19 05:00:07,389 : utils : INFO : saving Word2Vec object under ./vec/vec_2017-12-19, separately None
+2017-12-19 05:00:07,389 : utils : INFO : not storing attribute syn0norm
+2017-12-19 05:00:07,390 : utils : INFO : not storing attribute cum_table
+2017-12-19 05:00:07,580 : utils : INFO : saved ./vec/vec_2017-12-19
+2017-12-19 05:00:07,581 : genmodel : INFO : ./vec/vec_2017-12-19 saved

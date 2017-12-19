@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "./scraping04.py", line 92, in <module>
+    title = soup.find("h1", class_="m-b-1").text.strip()
+AttributeError: 'NoneType' object has no attribute 'text'
+Traceback (most recent call last):
+  File "./scraping04.py", line 92, in <module>
+    title = soup.find("h1", class_="m-b-1").text.strip()
+AttributeError: 'NoneType' object has no attribute 'text'
