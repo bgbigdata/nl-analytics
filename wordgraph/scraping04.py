@@ -43,40 +43,40 @@ basesoup13 = BeautifulSoup(requests.get(domain + startpath13).text, "lxml")
 basesoup14 = BeautifulSoup(requests.get(domain + startpath14).text, "lxml")
 # In[9]:
 
-
+cleansing = "/posts/[a-zA-Z0-9\._¥+-][a-zA-Z0-9\._¥+-][a-zA-Z0-9\._¥+-]"
 links = []
-for a in basesoup1.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup1.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup2.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup2.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup3.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup3.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup4.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup4.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup5.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup5.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup6.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup6.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup7.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup7.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup8.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup8.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup9.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup9.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup10.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup10.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup11.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup11.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup12.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup12.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup13.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup13.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
-for a in basesoup14.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
+for a in basesoup14.find_all("a", href=re.compile(cleansing)):
     links.append(domain + a.get("href"))
 links = list(set(links))
 
 
-print(links)
+#print(links)
 
 
 # In[15]:
