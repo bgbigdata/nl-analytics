@@ -35,8 +35,8 @@ for link in links:
     rawtext = soup.find("div", class_="detailBlock").text.strip()
     texts.append(rawtext)
     
-    #count = count + 1
-    #print (datetime.now().isoformat()+":("+str(count)+"/"+str(len(links))+")")
+    count = count + 1
+    print (datetime.now().isoformat()+":("+str(count)+"/"+str(len(links))+")")
 
 #print(texts[0])
 
