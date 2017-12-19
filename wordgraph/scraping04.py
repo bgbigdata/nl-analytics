@@ -76,7 +76,7 @@ for a in basesoup14.find_all("a", href=re.compile("/posts/[a-zA-Z0-9\._¥+-]")):
 links = list(set(links))
 
 
-#print(links)
+print(links)
 
 
 # In[15]:
