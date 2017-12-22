@@ -27,7 +27,7 @@ for a in basesoup.find_all("a", href=re.compile("/index.php?.*")):
     links.append(target_url)
     
 texts = []
-#count = 0
+count = 0
 
 for link in links:
     sleep(2)

@@ -75,7 +75,7 @@ for text in texts:
 
 
     id = hashlib.md5(text.encode("utf-8")).hexdigest() 
-    source = "神戸新聞（経済）" 
+    source = "薬事日報" 
     time = datetime.now().isoformat() 
      
     args = (id, source, time, text) 
