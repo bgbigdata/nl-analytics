@@ -1,6 +1,11 @@
 
 # coding: utf-8
 
+# In[5]:
+
+
+# coding: utf-8
+
 # In[15]:
 
 
@@ -45,12 +50,21 @@ count = 0
 for link in links: 
     sleep(2) 
     soup = BeautifulSoup(requests.get(link).text, "lxml") 
-    texts.append(soup.find("div", class_="title").text.strip() + " " + soup.find("div", class_="text").text.strip()) 
-     
+    text = soup.find("div", class_="title").text.strip() + " " + soup.find("div", class_="text").text.strip()
+    text = text.replace("\r","")
+    text = text.replace("\n","")
+    text = text.replace("\xa0","")
+    text = text.replace("\u3000","")
+    text = text.replace("Tweet","")
+    text = text.replace("［ 記事全文 ］＊ 全文閲覧には、薬事日報 電子版への申込みが必要です。","")
+    texts.append(text)
+    
     count = count + 1 
     print (datetime.now().isoformat()+":("+str(count)+"/"+str(len(links))+")") 
-    print (texts)
-    
+
+
+
+# In[ ]:
 
 
 # In[ ]:

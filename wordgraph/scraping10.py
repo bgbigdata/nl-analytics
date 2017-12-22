@@ -1,3 +1,9 @@
+
+# coding: utf-8
+
+# In[4]:
+
+
 ### TITLE    産経ニュース (scraping10)
 
 ### VARSION  v1.0   2017/12/21  初版  Y.I
@@ -66,9 +72,12 @@ for link in links:
     title = soup.find("h1").text.strip()
 
     main = soup.find("div", class_="fontMiddiumText").text.strip()
-
+    
     text = (title + " " + main).replace("\u3000"," ")
-
+    
+    if text.find("http") != -1:
+        continue
+    
     #URL拾っちゃってるので消したい。。。
 
     text = text.replace("\r","")
@@ -79,6 +88,7 @@ for link in links:
 
     texts.append(text)
     
+
 
     count = count + 1
 
@@ -134,3 +144,4 @@ dbcon.close()
 
 
 print (datetime.now().isoformat()+":db written")
+
