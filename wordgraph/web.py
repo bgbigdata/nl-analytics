@@ -5,6 +5,7 @@ import re
 import sqlite3
 from bottle import route, run, HTTPResponse, static_file, request
 from datetime import datetime
+import unicodedata
 
 from gensim.models import word2vec
 
@@ -14,7 +15,7 @@ vecdir = "vec/"
 
 @route("/calender")
 def calender():
-    return {"calender": sorted([x.replace(vecdir + "vec_","") for x in glob.glob(vecdir + 'vec_*')], reverse=True)}
+    return {"calender": sorted([x.replace(vecdir + "vec_","") for x in glob.glob(vecdir + 'vec_??????????')], reverse=True)}
 
 @route("/article/search", method="GET")
 def article_search():
@@ -44,9 +45,9 @@ def article_search():
     dbtext = sqlite3.connect("file:text.db", uri=True)
     dbtext.row_factory = sqlite3.Row
 
-    for r1 in dbword.execute("select * from wordstbl where words match ? and time < ? order by time desc limit 5 offset ?", (query, time, offset)):
+    for r1 in dbword.execute("select * from wordstbl where words match ? and time < ? order by time desc limit 20 offset ?", (query, time, offset)):
         r2 = dbtext.execute("select * from rawtext where id = ?", (r1["id"],)).fetchone()
-        article.append({"date": r2["time"], "text": r2["rawtext"], "source": r2["source"]})
+        article.append({"date": r2["time"], "text": unicodedata.normalize("NFKC", r2["rawtext"]), "source": r2["source"]})
 
     dbtext.close()
     dbword.close()
@@ -104,11 +105,12 @@ def words_count():
 
 @route("/words/vec", method="GET")
 def words_vec():
-    if any([x not in request.query.keys() for x in ["date","word"]]):
+    if any([x not in request.query.keys() for x in ["date","word","date_comp"]]):
         return {"error": "invalid args"}
 
     date = request.query.date
     word = request.query.word
+    date_comp = request.query.date_comp
 
     if vecdir + "vec_" + date not in glob.glob(vecdir + 'vec_*'):
         return {"error": "invalid date"}
@@ -123,6 +125,23 @@ def words_vec():
             return {"error": "invalid index"}
         index = int(request.query.index)
 
+    if vecdir + "vec_" + date_comp not in glob.glob(vecdir + 'vec_*'):
+        return {"error": "invalid date"}
+
+    model_comp = word2vec.Word2Vec.load(vecdir + "vec_" + date_comp)
+    
+    (nodes, links) = generate_nodes_links(word, model, index)
+    (nodes_comp, _) = generate_nodes_links(word, model_comp, index)
+    
+    for n in nodes:
+        if n["id"] in [nc["id"] for nc in nodes_comp]:
+            n["isnew"] = 0
+        else:
+            n["isnew"] = 1
+
+    return {"nodes":nodes, "links":links}
+
+def generate_nodes_links(word, model, index):
     nodes = {}
     links = []
     
@@ -141,8 +160,9 @@ def words_vec():
                 links.append({ "source":w1[0], "target":w2[0], "value": w2[1] })
     
     nodes = [{ "id": k, "group": v } for k, v in sorted(nodes.items(), key=lambda x:x[1])]
+    
+    return (nodes, links)
 
-    return {"nodes":nodes, "links":links}
 
 @route("/dl/<filename:path>")
 def download(filename):
