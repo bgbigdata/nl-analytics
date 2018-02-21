@@ -7,7 +7,6 @@ from inflector import Inflector
 
 dbtext = sqlite3.connect("file:text.db", uri=True)
 dbtext.row_factory = sqlite3.Row
-//英語は格納テーブルを変える
 
 dbword = sqlite3.connect("file:words.db", uri=True)
 dbword.row_factory = sqlite3.Row
@@ -20,13 +19,14 @@ if row is not None:
 count = 0
 fromtime = ""
 totime = ""
+separated_text = ""
 
 for row in dbtext.execute("select * from rawtext where time > ? order by time", (lasttime,)):
 	node = tagger.parseToNode(unicodedata.normalize("NFKC", row["rawtext"]))
-    separated_text = ""
+
 	while node:
 		tokens = nltk.word_tokenize(sentence)
-        tagged = nltk.pos_tag(tokens)
+		tagged = nltk.pos_tag(tokens)
 		if tagged[row][1] in ["NNP","NNS","NN"]:
 			separated_text = separated_text + " " + tageed[row][0]
 		node = node.next
