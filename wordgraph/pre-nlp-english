@@ -22,14 +22,13 @@ totime = ""
 separated_text = ""
 
 for row in dbtext.execute("select * from rawtext where time > ? order by time", (lasttime,)):
-	node = tagger.parseToNode(unicodedata.normalize("NFKC", row["rawtext"]))
-
 	while node:
-		tokens = nltk.word_tokenize(sentence)
+		tokens = nltk.word_tokenize(rawtext)
 		tagged = nltk.pos_tag(tokens)
-		if tagged[row][1] in ["NNP","NNS","NN"]:
-			separated_text = separated_text + " " + tageed[row][0]
-		node = node.next
+		while count < len(tagged)
+			if tagged[row][1] in ["NNP","NNS","NN"]:
+				separated_text = separated_text + " " + tageed[row][0]
+			count += 1
 	
 	insert = "INSERT INTO wordstbl(id, source, time, words) VALUES(?, ?, ?, ?)"
 	args = (row["id"], row["source"], row["time"], separated_text)
