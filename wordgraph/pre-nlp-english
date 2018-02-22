@@ -22,7 +22,6 @@ totime = ""
 separated_text = ""
 
 for row in dbtext.execute("select * from rawtext where time > ? order by time", (lasttime,)):
-	while node:
 		tokens = nltk.word_tokenize(rawtext)
 		tagged = nltk.pos_tag(tokens)
 		while count < len(tagged)
