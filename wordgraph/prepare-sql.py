@@ -32,3 +32,13 @@ dbcon.close()
 #pandas.set_option("display.max_rows", 100)
 #df
 
+#英語形態素解析用
+import sqlite3
+
+dbname = "text.db"
+dbcon = sqlite3.connect(dbname)
+dbcur = dbcon.cursor()
+
+dbcur.execute("CREATE TABLE rawtext2(id VARCHAR(36) NOT NULL PRIMARY KEY, source VARCHAR(20), time VARCHAR(20), rawtext VARCHAR(1024));")
+dbcon.commit()
+dbcon.close()
