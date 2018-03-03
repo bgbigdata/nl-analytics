@@ -3,13 +3,17 @@ import sqlite3
 import unicodedata
 from datetime import datetime
 import nltk
-from inflector import Inflector
+import pandas
 
-dbtext = sqlite3.connect("file:text.db", uri=True)
-dbtext.row_factory = sqlite3.Row
+#dbtext = sqlite3.connect("file:text.db", uri=True)
+#dbtext.row_factory = sqlite3.Row
 
 dbword = sqlite3.connect("file:words.db", uri=True)
 dbword.row_factory = sqlite3.Row
+
+dbname = "text.db"
+dbcon = sqlite3.connect(dbname)
+dbcur = dbcon.cursor()
 
 lasttime = ""
 row = dbword.execute("select time from wordstbl order by time desc limit 1").fetchone()
@@ -21,31 +25,31 @@ fromtime = ""
 totime = ""
 separated_text = ""
 
-for row in dbtext.execute("select * from rawtext where time > ? order by time", (lasttime,)):
-		tokens = nltk.word_tokenize(rawtext)
-		tagged = nltk.pos_tag(tokens)
-		while count < len(tagged)
-			if tagged[row][1] in ["NNP","NNS","NN"]:
-				separated_text = separated_text + " " + tageed[row][0]
-			count += 1
-	
-	insert = "INSERT INTO wordstbl(id, source, time, words) VALUES(?, ?, ?, ?)"
-	args = (row["id"], row["source"], row["time"], separated_text)
+for row in dbcur.execute("SELECT * FROM rawtext where time > ? order by time", (lasttime,)):
+    print(row)
+    print(row[3])
+    tag = nltk.pos_tag(nltk.word_tokenize(row[3]))
 
-	if fromtime > row["time"] or fromtime == "":
-		fromtime = row["time"]
-	if totime < row["time"]:
-		totime = row["time"]
+    for u in range(len(tag)):
+            if ("NN" in tag[u][1]) or ("NNS" in tag[u][1]) or ("NNP" in tag[u][1]):
+                    separated_text = separated_text + " " +tag[u][0]
+    print(separated_text)
+    insert = "INSERT INTO wordstbl(id, source, time, words) VALUES(?, ?, ?, ?)"
+    args = (row[0], row[1], row[2], separated_text)
 
-	try:
-		dbword.execute(insert, args)
-		count = count + 1
-	except sqlite3.Error as e:
-		print ('sqlite3:', e.args[0])
+    if fromtime > row[2] or fromtime == "":
+        fromtime = row[2]
+    if totime < row[2]:
+        totime = row[2]
+
+    try:
+        dbword.execute(insert, args)
+    except sqlite3.Error as e:
+        print ('sqlite3:', e.args[0])
+    separated_text = "" 
 
 dbword.commit()
 dbword.close()
-dbtext.close()
+dbcur.close()
 
 print (datetime.now().isoformat()+":words.db written(" + str(count) + ")(" + fromtime + "~" + totime + ")")
-
