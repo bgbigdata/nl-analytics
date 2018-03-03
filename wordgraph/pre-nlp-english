@@ -26,14 +26,12 @@ totime = ""
 separated_text = ""
 
 for row in dbcur.execute("SELECT * FROM rawtext2 where time > ? order by time", (lasttime,)):
-    print(row)
-    print(row[3])
     tag = nltk.pos_tag(nltk.word_tokenize(row[3]))
-
+    
     for u in range(len(tag)):
             if ("NN" in tag[u][1]) or ("NNS" in tag[u][1]) or ("NNP" in tag[u][1]):
                     separated_text = separated_text + " " +tag[u][0]
-    print(separated_text)
+
     insert = "INSERT INTO wordstbl(id, source, time, words) VALUES(?, ?, ?, ?)"
     args = (row[0], row[1], row[2], separated_text)
 
