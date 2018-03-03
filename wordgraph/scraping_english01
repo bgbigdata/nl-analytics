@@ -1,0 +1,58 @@
+# coding: utf-8
+
+# In[3]:
+
+
+import requests
+import re
+from time import sleep
+from bs4 import BeautifulSoup
+from datetime import datetime
+
+
+domain = "https://www.thestar.com.my"
+startpath = "/news/nation"
+
+basesoup = BeautifulSoup(requests.get(domain + startpath).text, "lxml")
+
+links = []
+for a in basesoup.find_all("a", href=re.compile(startpath+ "/[0-9][0-9]")):
+    links.append(domain + a.get("href"))
+links = list(set(links))
+links
+
+texts = []
+count = 0
+
+for link in links:
+    sleep(2)
+    soup = BeautifulSoup(requests.get(link).text, "lxml")
+    title = soup.find("div", class_="headline story-pg").text.strip()
+    main = soup.find("div", id="slcontent_0_sleft_0_storyDiv").text.strip()
+    text = title + main
+    texts.append(text)
+    count = count + 1
+    print (datetime.now().isoformat()+":("+str(count)+"/"+str(len(links))+")")
+
+import sqlite3
+import hashlib
+
+dbname = "text.db"
+dbcon = sqlite3.connect(dbname)
+dbcur = dbcon.cursor()
+
+for text in texts:
+    insert = "INSERT INTO rawtext2(id, source, time, rawtext) VALUES(?, ?, ?, ?)"
+
+    id = hashlib.md5(text.encode("utf-8")).hexdigest()
+    source = "the star(Malaysia)"
+    time = datetime.now().isoformat()
+    
+    args = (id, source, time, text)
+    try:
+        dbcur.execute(insert, args)
+    except sqlite3.Error as e:
+        print('sqlite3:', e.args[0])
+    
+dbcon.commit()
+dbcon.close()
