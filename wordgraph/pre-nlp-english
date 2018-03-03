@@ -25,7 +25,7 @@ fromtime = ""
 totime = ""
 separated_text = ""
 
-for row in dbcur.execute("SELECT * FROM rawtext where time > ? order by time", (lasttime,)):
+for row in dbcur.execute("SELECT * FROM rawtext2 where time > ? order by time", (lasttime,)):
     print(row)
     print(row[3])
     tag = nltk.pos_tag(nltk.word_tokenize(row[3]))
