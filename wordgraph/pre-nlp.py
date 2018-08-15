@@ -6,7 +6,7 @@ import MeCab
 import unicodedata
 from datetime import datetime
 
-tagger = MeCab.Tagger(' -d /home/ir-lab/w2v/nl-analytics/wordgraph/mecab-ipadic-neologd/')
+tagger = MeCab.Tagger(' -d /usr/lib/mecab/dic/mecab-ipadic-neologd/')
 tagger.parse("")#バグ回避
 
 dbtext = sqlite3.connect("file:text.db", uri=True)
